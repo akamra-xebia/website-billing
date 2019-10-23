@@ -1,1 +1,73 @@
+Follow below steps to run the application
+-> mvn package
+-> java -jar target/website-billing-1.0.0.jar
+
+test case will fire along with mvn package, if need to execute test again
+-> mvn test
+
+Bill Generation Api detail
+
+Url: localhost:8080/billing/generate
+
+Request
+{
+    "customerName": "Ankur Kamra",
+    "customerType": "Regular",
+    "itemDetailList": [
+        {
+            "itemPrice": 30.56,
+            "itemName": "Apple",
+            "discountApplicable": false
+        },
+        {
+            "itemPrice": 390.45,
+            "itemName": "Table",
+            "discountApplicable": true
+        }
+    ]
+}
+
+Customer name - Name of customer
+Customer type are 
+		Employee  - 30% discount
+		Affiliate - 10% discount
+		Regular   - 5% discount
+		General   - 0% discount
+		type exact word (Employee etc)
+Item detail list - list of items purchased
+	item price - price of each item
+	item name - name of item
+	discount applicable - true/false - false for grocery else true
+
+
+Response
+{
+    "customerName": "Ankur Kamra",
+    "customerType": "Regular",
+    "itemDetailList": [
+        {
+            "itemPrice": 30.56,
+            "itemName": "Apple",
+            "discountApplicable": false,
+            "discountedPrice": 30.56
+        },
+        {
+            "itemPrice": 390.45,
+            "itemName": "Table",
+            "discountApplicable": true,
+            "discountedPrice": 370.93
+        }
+    ],
+    "actualAmount": 421.01,
+    "discountedAmount": 401.49,
+    "additionalDiscount": 20.0,
+    "finalAmount": 381.49
+}
+
+discountedPrice - each item price after discount
+actualAmount - actual bill without discount
+discountedAmount - bill after percentage discount
+additional discount - discount on spent of every 100
+final amount - Final bill payable.
+
 
